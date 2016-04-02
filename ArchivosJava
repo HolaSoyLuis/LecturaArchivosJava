@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
  * @author Luis
  */
 public class Archivo {
-    public static void fileEscribir(String direccion, String hola){
+    public static void fileEscribirAppend(String direccion, String hola){
         File nuevo = new File(direccion);
         try {
             
@@ -26,6 +26,33 @@ public class Archivo {
                 FileWriter escribir = new FileWriter(nuevo);
                 BufferedWriter er = new BufferedWriter(escribir);
                 er.write(hola);
+                er.newLine();
+                //System.out.println("Se creo y accedio al archivo satisfactoriamente");
+                er.close();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al crear el archivo"+e.getMessage());
+        }
+    }
+    
+    public static void fileEscribir(String direccion, String hola){
+        File nuevo = new File(direccion);
+        try {
+            
+            if (nuevo.exists()) {
+                FileWriter escribir = new FileWriter(nuevo);
+                BufferedWriter er = new BufferedWriter(escribir);
+                er.append(hola);
+                er.newLine();
+                //System.out.println("Se accedio a el archivo satisfactoriamente");
+                er.close();
+            }
+            else if(!nuevo.exists()){
+                nuevo.createNewFile();
+                FileWriter escribir = new FileWriter(nuevo);
+                BufferedWriter er = new BufferedWriter(escribir);
+                er.write(hola);
+                er.newLine();
                 //System.out.println("Se creo y accedio al archivo satisfactoriamente");
                 er.close();
             }
@@ -43,7 +70,7 @@ public class Archivo {
             texto = lr.readLine();
         }
         catch(Exception e){
-            System.out.println("No sirve esa babosada");
+            JOptionPane.showMessageDialog(null, "Error leyendo el fichero:\n"+e.getMessage());
         }
         return texto;
     }
@@ -61,7 +88,7 @@ public class Archivo {
             }
         }
         catch(Exception e){
-            System.out.println("No sirve esa babosada");
+            JOptionPane.showMessageDialog(null, "Error leyendo el fichero:\n"+e.getMessage());
         }
         return texto;
     }
@@ -74,5 +101,4 @@ public class Archivo {
             System.out.println("No se puedo eliminar el fihero: "+e.getMessage());
         }
     }
-    
 }
